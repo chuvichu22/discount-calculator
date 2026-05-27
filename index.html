@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>할인 계산기</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --bg: #0f0f13;
+    --surface: #1a1a22;
+    --surface2: #22222e;
+    --accent: #ff5c35;
+    --accent2: #ffb347;
+    --text: #f0f0f5;
+    --muted: #7a7a90;
+    --green: #2ecc71;
+    --border: #2e2e3e;
+  }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100dvh;
+    max-width: 480px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+  }
+
+  /* 헤더 */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header h1 {
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+  }
+  .header h1 span { color: var(--accent); }
+
+  /* 탭 */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .tab {
+    flex: 1;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  /* 섹션 */
+  .section { padding: 16px 20px 0; display: none; }
+  .section.active { display: block; }
+
+  /* 카드 */
+  .card {
+    background: var(--surface);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* 입력 행 */
+  .input-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .input-row:last-child { margin-bottom: 0; }
+
+  .input-name {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    outline: none;
+  }
+  .input-name:focus { border-color: var(--accent); }
+  .input-name::placeholder { color: var(--muted); }
+
+  .input-price {
+    width: 110px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    outline: none;
+    text-align: right;
+  }
+  .input-price:focus { border-color: var(--accent); }
+  .input-price::placeholder { color: var(--muted); font-size: 12px; }
+
+  .won-label {
+    font-size: 13px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .btn-remove {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+    border-radius: 6px;
+    transition: color 0.15s;
+  }
+  .btn-remove:hover { color: var(--accent); }
+
+  /* 수량 컨트롤 */
+  .qty-control {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .qty-btn {
+    background: transparent;
+    border: none;
+    color: var(--accent2);
+    font-size: 18px;
+    font-weight: 900;
+    width: 32px;
+    height: 36px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s;
+    font-family: 'Noto Sans KR', sans-serif;
+    flex-shrink: 0;
+  }
+  .qty-btn:active { background: rgba(255,179,71,0.15); }
+  .qty-num {
+    width: 28px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--text);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    height: 36px;
+    line-height: 36px;
+    flex-shrink: 0;
+  }
+
+  /* 상품 행을 두 줄로 */
+  .item-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+  .item-block:last-child { margin-bottom: 0; }
+  .item-row-top {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .item-row-bottom {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .item-price-label {
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .item-subtotal {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent2);
+    white-space: nowrap;
+  }
+
+  /* 버튼들 */
+  .btn-add {
+    width: 100%;
+    padding: 11px;
+    border-radius: 10px;
+    border: 1.5px dashed var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 8px;
+  }
+  .btn-add:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* 할인 설정 */
+  .discount-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .discount-type-btn {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+  .discount-type-btn.active {
+    border-color: var(--accent2);
+    background: rgba(255,179,71,0.12);
+    color: var(--accent2);
+  }
+
+  .discount-value-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .input-discount {
+    flex: 1;
+    background: var(--surface2);
+    border: 1.5px solid var(--accent2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    outline: none;
+    text-align: center;
+  }
+  .discount-unit {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--accent2);
+  }
+
+  /* 프리셋 */
+  .preset-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .preset-btn {
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .preset-btn:hover, .preset-btn.active {
+    background: rgba(255,179,71,0.2);
+    border-color: var(--accent2);
+    color: var(--accent2);
+  }
+
+  /* 계산 버튼 */
+  .btn-calc {
+    width: 100%;
+    padding: 16px;
+    border-radius: 14px;
+    border: none;
+    background: var(--accent);
+    color: white;
+    font-size: 16px;
+    font-weight: 900;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    margin-top: 4px;
+    letter-spacing: -0.3px;
+    transition: all 0.15s;
+    box-shadow: 0 4px 20px rgba(255,92,53,0.3);
+  }
+  .btn-calc:active { transform: scale(0.98); }
+
+  /* 결과 */
+  .result-card {
+    background: var(--surface);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-top: 12px;
+    display: none;
+  }
+  .result-card.show { display: block; }
+
+  .result-items { margin-bottom: 16px; }
+  .result-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .result-item-row:last-child { border-bottom: none; }
+  .result-item-name { font-size: 14px; color: var(--muted); }
+  .result-item-price { font-size: 14px; font-weight: 700; }
+
+  .result-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 12px 0;
+  }
+
+  .result-subtotal-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .result-subtotal-label { font-size: 13px; color: var(--muted); }
+  .result-subtotal-value { font-size: 13px; font-weight: 700; }
+
+  .result-discount-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .result-discount-label { font-size: 13px; color: var(--accent2); }
+  .result-discount-value { font-size: 13px; font-weight: 700; color: var(--accent2); }
+
+  .result-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 2px solid var(--accent);
+  }
+  .result-total-label { font-size: 16px; font-weight: 900; }
+  .result-total-value {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--accent);
+    letter-spacing: -1px;
+  }
+
+  .result-save {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  /* 초기화 버튼 */
+  .btn-reset {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.15s;
+  }
+  .btn-reset:hover { border-color: var(--muted); color: var(--text); }
+
+  /* 빈 상태 */
+  .empty-state {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  /* 숫자 키패드 느낌 강조 */
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+  input[type=number] { -moz-appearance: textfield; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>⚡ 할인 <span>계산기</span></h1>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('calc')">계산하기</button>
+    <button class="tab" onclick="switchTab('history')">계산 내역</button>
+  </div>
+</div>
+
+<!-- 계산 탭 -->
+<div id="tab-calc" class="section active">
+
+  <!-- 상품 입력 -->
+  <div class="card">
+    <div class="card-title">🛒 상품 입력</div>
+    <div id="items-container">
+      <!-- 동적으로 추가 -->
+    </div>
+    <button class="btn-add" onclick="addItem()">+ 상품 추가</button>
+  </div>
+
+  <!-- 할인 설정 -->
+  <div class="card">
+    <div class="card-title">🏷️ 할인 설정</div>
+    <div class="discount-grid" style="grid-template-columns:1fr 1fr 1fr;">
+      <button class="discount-type-btn active" id="btn-percent" onclick="setDiscountType('percent')">% 퍼센트</button>
+      <button class="discount-type-btn" id="btn-fixed" onclick="setDiscountType('fixed')">₩ 금액</button>
+      <button class="discount-type-btn" id="btn-qty" onclick="setDiscountType('qty')">🎁 N개 조건</button>
+    </div>
+
+    <!-- 일반 할인 입력 -->
+    <div id="normal-discount-area">
+      <div class="discount-value-row">
+        <input class="input-discount" type="number" id="discount-value" placeholder="0">
+        <span class="discount-unit" id="discount-unit">%</span>
+      </div>
+      <div class="preset-row" id="preset-row"></div>
+    </div>
+
+    <!-- N개 조건 할인 입력 -->
+    <div id="qty-discount-area" style="display:none;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeCondQty(-1)">−</button>
+          <span class="qty-num" id="cond-qty" style="width:36px">2</span>
+          <button class="qty-btn" onclick="changeCondQty(1)">+</button>
+        </div>
+        <span style="font-size:14px;font-weight:700;color:var(--text)">개 구매 시</span>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <button class="discount-type-btn" id="btn-qty-fixed" onclick="setQtyDiscountMode('fixed')" style="flex:1">₩ 금액 할인</button>
+        <button class="discount-type-btn active" id="btn-qty-percent" onclick="setQtyDiscountMode('percent')" style="flex:1">% 퍼센트 할인</button>
+      </div>
+      <div class="discount-value-row">
+        <input class="input-discount" type="number" id="qty-discount-value" placeholder="0">
+        <span class="discount-unit" id="qty-discount-unit">%</span>
+      </div>
+      <div class="preset-row" id="qty-preset-row"></div>
+    </div>
+  </div>
+
+  <!-- 계산 버튼 -->
+  <div style="padding: 0 20px;">
+    <button class="btn-calc" onclick="calculate()">💰 할인 금액 계산</button>
+  </div>
+
+  <!-- 결과 -->
+  <div style="padding: 0 20px;">
+    <div class="result-card" id="result-card">
+      <div class="card-title">📋 계산 결과</div>
+      <div class="result-items" id="result-items"></div>
+      <div class="result-subtotal-row">
+        <span class="result-subtotal-label">소계</span>
+        <span class="result-subtotal-value" id="result-subtotal"></span>
+      </div>
+      <div class="result-discount-row">
+        <span class="result-discount-label" id="result-discount-label">할인</span>
+        <span class="result-discount-value" id="result-discount-value"></span>
+      </div>
+      <div class="result-total-row">
+        <span class="result-total-label">최종 금액</span>
+        <span class="result-total-value" id="result-total"></span>
+      </div>
+      <div class="result-save" id="result-save"></div>
+    </div>
+    <button class="btn-reset" onclick="resetAll()" style="display:none" id="btn-reset">🔄 초기화</button>
+  </div>
+</div>
+
+<!-- 내역 탭 -->
+<div id="tab-history" class="section">
+  <div id="history-container">
+    <div class="empty-state">아직 계산 내역이 없어요</div>
+  </div>
+</div>
+
+<script>
+let discountType = 'percent';
+let qtyDiscountMode = 'percent'; // qty 타입 내부에서 금액/퍼센트 선택
+let history = JSON.parse(localStorage.getItem('calcHistory') || '[]');
+let itemCount = 0;
+
+const PERCENT_PRESETS = [10, 20, 30, 50];
+const FIXED_PRESETS = [1000, 2000, 3000, 5000];
+
+function init() {
+  addItem();
+  addItem();
+  renderPresets();
+  renderQtyPresets();
+  renderHistory();
+}
+function addItem() {
+  itemCount++;
+  const container = document.getElementById('items-container');
+  const div = document.createElement('div');
+  div.className = 'item-block';
+  div.id = `item-row-${itemCount}`;
+  div.innerHTML = `
+    <div class="item-row-top">
+      <input class="input-name" type="text" placeholder="상품명 (예: 짜장)" id="name-${itemCount}" oninput="updateSubtotal(${itemCount})">
+      <button class="btn-remove" onclick="removeItem(${itemCount})">×</button>
+    </div>
+    <div class="item-row-bottom">
+      <span class="item-price-label">단가</span>
+      <input class="input-price" type="number" placeholder="가격" id="price-${itemCount}" style="width:100px" oninput="updateSubtotal(${itemCount})">
+      <span class="won-label">원</span>
+      <div class="qty-control">
+        <button class="qty-btn" onclick="changeQty(${itemCount}, -1)">−</button>
+        <span class="qty-num" id="qty-${itemCount}">1</span>
+        <button class="qty-btn" onclick="changeQty(${itemCount}, 1)">+</button>
+      </div>
+      <span class="item-subtotal" id="subtotal-${itemCount}">—</span>
+    </div>
+  `;
+  container.appendChild(div);
+}
+
+function changeQty(id, delta) {
+  const el = document.getElementById(`qty-${id}`);
+  let val = parseInt(el.textContent) + delta;
+  if (val < 1) val = 1;
+  if (val > 99) val = 99;
+  el.textContent = val;
+  updateSubtotal(id);
+}
+
+function updateSubtotal(id) {
+  const price = parseInt(document.getElementById(`price-${id}`)?.value) || 0;
+  const qty = parseInt(document.getElementById(`qty-${id}`)?.textContent) || 1;
+  const el = document.getElementById(`subtotal-${id}`);
+  if (el) el.textContent = price > 0 ? (price * qty).toLocaleString() + '원' : '—';
+}
+
+function removeItem(id) {
+  const row = document.getElementById(`item-row-${id}`);
+  if (row) row.remove();
+}
+
+function setDiscountType(type) {
+  discountType = type;
+  document.getElementById('btn-percent').classList.toggle('active', type === 'percent');
+  document.getElementById('btn-fixed').classList.toggle('active', type === 'fixed');
+  document.getElementById('btn-qty').classList.toggle('active', type === 'qty');
+
+  const isQty = type === 'qty';
+  document.getElementById('normal-discount-area').style.display = isQty ? 'none' : 'block';
+  document.getElementById('qty-discount-area').style.display = isQty ? 'block' : 'none';
+
+  if (!isQty) {
+    document.getElementById('discount-unit').textContent = type === 'percent' ? '%' : '원';
+    document.getElementById('discount-value').value = '';
+    renderPresets();
+  }
+}
+
+function setQtyDiscountMode(mode) {
+  qtyDiscountMode = mode;
+  document.getElementById('btn-qty-fixed').classList.toggle('active', mode === 'fixed');
+  document.getElementById('btn-qty-percent').classList.toggle('active', mode === 'percent');
+  document.getElementById('qty-discount-unit').textContent = mode === 'percent' ? '%' : '원';
+  document.getElementById('qty-discount-value').value = '';
+  renderQtyPresets();
+}
+
+function changeCondQty(delta) {
+  const el = document.getElementById('cond-qty');
+  let val = parseInt(el.textContent) + delta;
+  if (val < 2) val = 2;
+  if (val > 20) val = 20;
+  el.textContent = val;
+}
+
+function renderQtyPresets() {
+  const row = document.getElementById('qty-preset-row');
+  const presets = qtyDiscountMode === 'percent' ? PERCENT_PRESETS : FIXED_PRESETS;
+  const label = qtyDiscountMode === 'percent' ? '%' : '원';
+  row.innerHTML = presets.map(p =>
+    `<button class="preset-btn" onclick="applyQtyPreset(${p})">${p.toLocaleString()}${label}</button>`
+  ).join('');
+}
+
+function applyQtyPreset(val) {
+  document.getElementById('qty-discount-value').value = val;
+  document.querySelectorAll('#qty-preset-row .preset-btn').forEach(b => {
+    b.classList.toggle('active', parseFloat(b.textContent) === val || b.textContent.replace(/[^0-9]/g,'') == val);
+  });
+}
+
+function updateDiscountUnit() {}
+
+function renderPresets() {
+  const row = document.getElementById('preset-row');
+  const presets = discountType === 'percent' ? PERCENT_PRESETS : FIXED_PRESETS;
+  const label = discountType === 'percent' ? '%' : '원';
+  row.innerHTML = presets.map(p =>
+    `<button class="preset-btn" onclick="applyPreset(${p})">${p.toLocaleString()}${label}</button>`
+  ).join('');
+}
+
+function applyPreset(val) {
+  document.getElementById('discount-value').value = val;
+  document.querySelectorAll('.preset-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.textContent) === val);
+  });
+}
+
+function getItems() {
+  const rows = document.querySelectorAll('[id^="item-row-"]');
+  const items = [];
+  rows.forEach(row => {
+    const id = row.id.replace('item-row-', '');
+    const name = document.getElementById(`name-${id}`)?.value.trim();
+    const price = parseInt(document.getElementById(`price-${id}`)?.value);
+    const qty = parseInt(document.getElementById(`qty-${id}`)?.textContent) || 1;
+    if (name && price > 0) items.push({ name, price, qty, total: price * qty });
+  });
+  return items;
+}
+
+function calculate() {
+  const items = getItems();
+  if (items.length === 0) {
+    alert('상품을 하나 이상 입력해주세요');
+    return;
+  }
+
+  const subtotal = items.reduce((s, i) => s + i.total, 0);
+  let discountAmount = 0;
+  let discountLabel = '';
+
+  if (discountType === 'qty') {
+    const condQty = parseInt(document.getElementById('cond-qty').textContent);
+    const discountVal = parseFloat(document.getElementById('qty-discount-value').value);
+    if (!discountVal || discountVal <= 0) { alert('할인 값을 입력해주세요'); return; }
+
+    // 전체 수량 합산
+    const totalQty = items.reduce((s, i) => s + i.qty, 0);
+    const times = Math.floor(totalQty / condQty); // 조건 충족 횟수
+
+    if (times === 0) {
+      alert(`총 ${totalQty}개로는 ${condQty}개 조건이 충족되지 않아요`);
+      return;
+    }
+
+    if (qtyDiscountMode === 'fixed') {
+      discountAmount = discountVal * times;
+      discountLabel = `${condQty}개 구매마다 ${discountVal.toLocaleString()}원 할인 (×${times}회)`;
+    } else {
+      if (discountVal >= 100) { alert('할인율은 100% 미만이어야 합니다'); return; }
+      discountAmount = Math.round(subtotal * discountVal / 100) * times;
+      // 최대 소계 넘지 않도록
+      if (discountAmount > subtotal) discountAmount = subtotal;
+      discountLabel = `${condQty}개 구매마다 ${discountVal}% 할인 (×${times}회)`;
+    }
+  } else {
+    const discountVal = parseFloat(document.getElementById('discount-value').value);
+    if (!discountVal || discountVal <= 0) { alert('할인 값을 입력해주세요'); return; }
+
+    if (discountType === 'percent') {
+      if (discountVal >= 100) { alert('할인율은 100% 미만이어야 합니다'); return; }
+      discountAmount = Math.round(subtotal * discountVal / 100);
+      discountLabel = `${discountVal}% 할인`;
+    } else {
+      if (discountVal >= subtotal) { alert('할인 금액이 소계보다 크거나 같습니다'); return; }
+      discountAmount = discountVal;
+      discountLabel = `${discountVal.toLocaleString()}원 할인`;
+    }
+  }
+
+  const total = subtotal - discountAmount;
+
+  // 결과 렌더링
+  const resultItems = document.getElementById('result-items');
+  resultItems.innerHTML = items.map(i =>
+    `<div class="result-item-row">
+      <span class="result-item-name">${i.name}${i.qty > 1 ? ` <span style="color:var(--accent2);font-size:12px">×${i.qty}</span>` : ''}</span>
+      <span class="result-item-price">${i.total.toLocaleString()}원</span>
+    </div>`
+  ).join('');
+
+  document.getElementById('result-subtotal').textContent = subtotal.toLocaleString() + '원';
+  document.getElementById('result-discount-label').textContent = '할인 (' + discountLabel + ')';
+  document.getElementById('result-discount-value').textContent = `-${discountAmount.toLocaleString()}원`;
+  document.getElementById('result-total').textContent = total.toLocaleString() + '원';
+  document.getElementById('result-save').textContent = `💚 ${discountAmount.toLocaleString()}원 절약!`;
+
+  document.getElementById('result-card').classList.add('show');
+  document.getElementById('btn-reset').style.display = 'block';
+
+  // 내역 저장
+  const record = {
+    time: new Date().toLocaleString('ko-KR', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' }),
+    items,
+    subtotal,
+    discountAmount,
+    discountLabel,
+    total
+  };
+  history.unshift(record);
+  if (history.length > 30) history.pop();
+  localStorage.setItem('calcHistory', JSON.stringify(history));
+  renderHistory();
+
+  setTimeout(() => document.getElementById('result-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+}
+
+function resetAll() {
+  document.querySelectorAll('[id^="item-row-"]').forEach(r => r.remove());
+  itemCount = 0;
+  addItem();
+  addItem();
+  document.getElementById('discount-value').value = '';
+  document.getElementById('qty-discount-value').value = '';
+  document.getElementById('cond-qty').textContent = '2';
+  document.getElementById('result-card').classList.remove('show');
+  document.getElementById('btn-reset').style.display = 'none';
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderHistory() {
+  const container = document.getElementById('history-container');
+  if (history.length === 0) {
+    container.innerHTML = '<div class="empty-state">아직 계산 내역이 없어요</div>';
+    return;
+  }
+  container.innerHTML = history.map((r, i) => `
+    <div class="card" style="margin: 12px 20px 0;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span style="font-size:12px;color:var(--muted)">${r.time}</span>
+        <span style="font-size:12px;font-weight:700;color:var(--accent2)">${r.discountLabel}</span>
+      </div>
+      ${r.items.map(it => `
+        <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:13px;color:var(--muted)">${it.name}${it.qty > 1 ? ` ×${it.qty}` : ''}</span>
+          <span style="font-size:13px;font-weight:700">${it.total.toLocaleString()}원</span>
+        </div>
+      `).join('')}
+      <div style="display:flex;justify-content:space-between;margin-top:10px;align-items:baseline">
+        <span style="font-size:13px;color:var(--muted)">할인 -${r.discountAmount.toLocaleString()}원</span>
+        <span style="font-size:20px;font-weight:900;color:var(--accent)">${r.total.toLocaleString()}원</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', (i === 0 && tab === 'calc') || (i === 1 && tab === 'history'));
+  });
+  document.getElementById('tab-calc').classList.toggle('active', tab === 'calc');
+  document.getElementById('tab-history').classList.toggle('active', tab === 'history');
+  if (tab === 'history') renderHistory();
+}
+
+init();
+</script>
+</body>
+</html>

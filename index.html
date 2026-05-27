@@ -274,6 +274,8 @@
   }
   .input-discount {
     flex: 1;
+    min-width: 0;
+    max-width: calc(100% - 48px);
     background: var(--surface2);
     border: 1.5px solid var(--accent2);
     border-radius: 8px;
@@ -285,11 +287,20 @@
     outline: none;
     text-align: center;
   }
+  .discount-value-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
   .discount-unit {
     font-size: 18px;
     font-weight: 900;
     color: var(--accent2);
+    flex-shrink: 0;
+    width: 32px;
+    text-align: left;
   }
+
 
   /* 프리셋 */
   .preset-row {

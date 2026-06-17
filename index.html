@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -31,7 +33,6 @@
     padding-bottom: 40px;
   }
 
-  /* 헤더 */
   .header {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
@@ -40,407 +41,204 @@
     top: 0;
     z-index: 100;
   }
-  .header h1 {
-    font-size: 18px;
-    font-weight: 900;
-    letter-spacing: -0.5px;
-  }
+  .header h1 { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; }
   .header h1 span { color: var(--accent); }
 
-  /* 탭 */
-  .tabs {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-  }
+  .tabs { display: flex; gap: 8px; margin-top: 12px; }
   .tab {
-    flex: 1;
-    padding: 8px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: 700;
-    font-family: 'Noto Sans KR', sans-serif;
-    cursor: pointer;
-    transition: all 0.15s;
+    flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--border);
+    background: transparent; color: var(--muted); font-size: 13px; font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: all 0.15s;
   }
-  .tab.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: white;
-  }
+  .tab.active { background: var(--accent); border-color: var(--accent); color: white; }
 
-  /* 섹션 */
   .section { padding: 16px 20px 0; display: none; }
   .section.active { display: block; }
 
-  /* 카드 */
   .card {
-    background: var(--surface);
-    border-radius: 14px;
-    border: 1px solid var(--border);
-    padding: 16px;
-    margin-bottom: 12px;
+    background: var(--surface); border-radius: 14px; border: 1px solid var(--border);
+    padding: 16px; margin-bottom: 12px;
   }
   .card-title {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
+    font-size: 11px; font-weight: 700; color: var(--muted);
+    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;
   }
-
-  /* 입력 행 */
-  .input-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-  .input-row:last-child { margin-bottom: 0; }
 
   .input-name {
-    flex: 1;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 12px;
-    color: var(--text);
-    font-size: 14px;
-    font-family: 'Noto Sans KR', sans-serif;
-    outline: none;
+    flex: 1; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 12px; color: var(--text); font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif; outline: none;
   }
   .input-name:focus { border-color: var(--accent); }
   .input-name::placeholder { color: var(--muted); }
 
   .input-price {
-    width: 110px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 12px;
-    color: var(--text);
-    font-size: 14px;
-    font-family: 'Noto Sans KR', sans-serif;
-    outline: none;
-    text-align: right;
+    width: 110px; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 12px; color: var(--text); font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif; outline: none; text-align: right;
   }
   .input-price:focus { border-color: var(--accent); }
   .input-price::placeholder { color: var(--muted); font-size: 12px; }
 
-  .won-label {
-    font-size: 13px;
-    color: var(--muted);
-    white-space: nowrap;
-  }
+  .won-label { font-size: 13px; color: var(--muted); white-space: nowrap; }
 
   .btn-remove {
-    background: transparent;
-    border: none;
-    color: var(--muted);
-    font-size: 20px;
-    cursor: pointer;
-    padding: 4px;
-    line-height: 1;
-    border-radius: 6px;
-    transition: color 0.15s;
+    background: transparent; border: none; color: var(--muted); font-size: 20px;
+    cursor: pointer; padding: 4px; line-height: 1; border-radius: 6px; transition: color 0.15s;
   }
   .btn-remove:hover { color: var(--accent); }
 
-  /* 수량 컨트롤 */
   .qty-control {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    flex-shrink: 0;
+    display: flex; align-items: center; background: var(--surface2);
+    border: 1px solid var(--border); border-radius: 8px; overflow: hidden; flex-shrink: 0;
   }
   .qty-btn {
-    background: transparent;
-    border: none;
-    color: var(--accent2);
-    font-size: 18px;
-    font-weight: 900;
-    width: 32px;
-    height: 36px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.1s;
-    font-family: 'Noto Sans KR', sans-serif;
-    flex-shrink: 0;
+    background: transparent; border: none; color: var(--accent2); font-size: 18px;
+    font-weight: 900; width: 32px; height: 36px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.1s; font-family: 'Noto Sans KR', sans-serif; flex-shrink: 0;
   }
   .qty-btn:active { background: rgba(255,179,71,0.15); }
   .qty-num {
-    width: 28px;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 900;
-    color: var(--text);
-    border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-    height: 36px;
-    line-height: 36px;
-    flex-shrink: 0;
+    width: 28px; text-align: center; font-size: 14px; font-weight: 900; color: var(--text);
+    border-left: 1px solid var(--border); border-right: 1px solid var(--border);
+    height: 36px; line-height: 36px; flex-shrink: 0;
   }
 
-  /* 상품 행을 두 줄로 */
   .item-block {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 12px;
-    margin-bottom: 8px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 12px; margin-bottom: 8px;
   }
   .item-block:last-child { margin-bottom: 0; }
-  .item-row-top {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-  .item-row-bottom {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  .item-price-label {
-    font-size: 11px;
-    color: var(--muted);
-    white-space: nowrap;
-  }
-  .item-subtotal {
-    margin-left: auto;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--accent2);
-    white-space: nowrap;
-  }
+  .item-row-top { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .item-row-bottom { display: flex; gap: 8px; align-items: center; }
+  .item-price-label { font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .item-subtotal { margin-left: auto; font-size: 13px; font-weight: 700; color: var(--accent2); white-space: nowrap; }
 
-  /* 버튼들 */
   .btn-add {
-    width: 100%;
-    padding: 11px;
-    border-radius: 10px;
-    border: 1.5px dashed var(--border);
-    background: transparent;
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: 700;
-    font-family: 'Noto Sans KR', sans-serif;
-    cursor: pointer;
-    transition: all 0.15s;
-    margin-top: 8px;
+    width: 100%; padding: 11px; border-radius: 10px; border: 1.5px dashed var(--border);
+    background: transparent; color: var(--muted); font-size: 13px; font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: all 0.15s; margin-top: 8px;
   }
   .btn-add:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* 할인 설정 */
-  .discount-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
+  .discount-grid { display: grid; gap: 8px; margin-bottom: 12px; }
   .discount-type-btn {
-    padding: 10px;
-    border-radius: 10px;
-    border: 1.5px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: 700;
-    font-family: 'Noto Sans KR', sans-serif;
-    cursor: pointer;
-    transition: all 0.15s;
-    text-align: center;
+    padding: 10px; border-radius: 10px; border: 1.5px solid var(--border);
+    background: transparent; color: var(--muted); font-size: 13px; font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: all 0.15s; text-align: center;
   }
   .discount-type-btn.active {
-    border-color: var(--accent2);
-    background: rgba(255,179,71,0.12);
-    color: var(--accent2);
+    border-color: var(--accent2); background: rgba(255,179,71,0.12); color: var(--accent2);
   }
 
-  .discount-value-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
+  .discount-value-row { display: flex; gap: 8px; align-items: center; }
   .input-discount {
-    flex: 1;
-    min-width: 0;
-    max-width: calc(100% - 48px);
-    background: var(--surface2);
-    border: 1.5px solid var(--accent2);
-    border-radius: 8px;
-    padding: 10px 12px;
-    color: var(--text);
-    font-size: 18px;
-    font-weight: 700;
-    font-family: 'Noto Sans KR', sans-serif;
-    outline: none;
-    text-align: center;
+    flex: 1; min-width: 0; background: var(--surface2);
+    border: 1.5px solid var(--accent2); border-radius: 8px; padding: 10px 12px;
+    color: var(--text); font-size: 18px; font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif; outline: none; text-align: center;
   }
-  .discount-value-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .discount-unit {
-    font-size: 18px;
-    font-weight: 900;
-    color: var(--accent2);
-    flex-shrink: 0;
-    width: 32px;
-    text-align: left;
-  }
+  .discount-unit { font-size: 18px; font-weight: 900; color: var(--accent2); flex-shrink: 0; width: 32px; text-align: left; }
 
-
-  /* 프리셋 */
-  .preset-row {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-top: 10px;
-  }
+  .preset-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
   .preset-btn {
-    padding: 6px 12px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: var(--surface2);
-    color: var(--muted);
-    font-size: 12px;
-    font-weight: 700;
-    font-family: 'Noto Sans KR', sans-serif;
-    cursor: pointer;
-    transition: all 0.15s;
+    padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border);
+    background: var(--surface2); color: var(--muted); font-size: 12px; font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: all 0.15s;
   }
   .preset-btn:hover, .preset-btn.active {
-    background: rgba(255,179,71,0.2);
-    border-color: var(--accent2);
-    color: var(--accent2);
+    background: rgba(255,179,71,0.2); border-color: var(--accent2); color: var(--accent2);
   }
 
-  /* 계산 버튼 */
   .btn-calc {
-    width: 100%;
-    padding: 16px;
-    border-radius: 14px;
-    border: none;
-    background: var(--accent);
-    color: white;
-    font-size: 16px;
-    font-weight: 900;
-    font-family: 'Noto Sans KR', sans-serif;
-    cursor: pointer;
-    margin-top: 4px;
-    letter-spacing: -0.3px;
-    transition: all 0.15s;
+    width: 100%; padding: 16px; border-radius: 14px; border: none; background: var(--accent);
+    color: white; font-size: 16px; font-weight: 900; font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer; margin-top: 4px; letter-spacing: -0.3px; transition: all 0.15s;
     box-shadow: 0 4px 20px rgba(255,92,53,0.3);
   }
   .btn-calc:active { transform: scale(0.98); }
 
-  /* 결과 */
   .result-card {
-    background: var(--surface);
-    border-radius: 14px;
-    border: 1px solid var(--border);
-    padding: 20px;
-    margin-top: 12px;
-    display: none;
+    background: var(--surface); border-radius: 14px; border: 1px solid var(--border);
+    padding: 20px; margin-top: 12px; display: none;
   }
   .result-card.show { display: block; }
 
   .result-items { margin-bottom: 16px; }
   .result-item-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 8px 0; border-bottom: 1px solid var(--border);
   }
   .result-item-row:last-child { border-bottom: none; }
   .result-item-name { font-size: 14px; color: var(--muted); }
-  .result-item-price { font-size: 14px; font-weight: 700; }
+  .result-item-price { font-size: 14px; font-weight: 700; padding-top: 2px; flex-shrink: 0; margin-left: 8px; }
 
-  .result-divider {
-    height: 1px;
-    background: var(--border);
-    margin: 12px 0;
+  /* 개당 가격 배지 */
+  .per-unit-badge {
+    display: inline-block;
+    background: rgba(46,204,113,0.15);
+    border: 1px solid rgba(46,204,113,0.3);
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 6px;
+    padding: 2px 7px;
+    margin-top: 5px;
   }
 
-  .result-subtotal-row {
+  /* 전체 개당 가격 박스 */
+  .per-unit-box {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: rgba(46,204,113,0.08);
+    border: 1px solid rgba(46,204,113,0.25);
+    border-radius: 10px;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 6px;
+    align-items: center;
   }
+  .per-unit-box-label { font-size: 13px; color: var(--green); font-weight: 700; }
+  .per-unit-box-value { font-size: 20px; font-weight: 900; color: var(--green); letter-spacing: -0.5px; }
+
+  .result-subtotal-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
   .result-subtotal-label { font-size: 13px; color: var(--muted); }
   .result-subtotal-value { font-size: 13px; font-weight: 700; }
 
-  .result-discount-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 6px;
-  }
+  .result-discount-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
   .result-discount-label { font-size: 13px; color: var(--accent2); }
   .result-discount-value { font-size: 13px; font-weight: 700; color: var(--accent2); }
 
   .result-total-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 2px solid var(--accent);
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--accent);
   }
   .result-total-label { font-size: 16px; font-weight: 900; }
-  .result-total-value {
-    font-size: 28px;
-    font-weight: 900;
-    color: var(--accent);
-    letter-spacing: -1px;
-  }
+  .result-total-value { font-size: 28px; font-weight: 900; color: var(--accent); letter-spacing: -1px; }
 
-  .result-save {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 13px;
-    color: var(--green);
-    font-weight: 700;
-  }
+  .result-save { text-align: center; margin-top: 10px; font-size: 13px; color: var(--green); font-weight: 700; }
 
-  /* 초기화 버튼 */
   .btn-reset {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    font-size: 14px;
-    font-weight: 700;
-    font-family: 'Noto Sans KR', sans-serif;
-    cursor: pointer;
-    margin-top: 8px;
-    transition: all 0.15s;
+    width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border);
+    background: transparent; color: var(--muted); font-size: 14px; font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif; cursor: pointer; margin-top: 8px; transition: all 0.15s;
   }
   .btn-reset:hover { border-color: var(--muted); color: var(--text); }
 
-  /* 빈 상태 */
-  .empty-state {
-    text-align: center;
-    padding: 30px 20px;
-    color: var(--muted);
-    font-size: 14px;
+  .empty-state { text-align: center; padding: 30px 20px; color: var(--muted); font-size: 14px; }
+
+  /* 내역 개당 가격 박스 */
+  .history-per-unit-box {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: rgba(46,204,113,0.08);
+    border: 1px solid rgba(46,204,113,0.2);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  /* 숫자 키패드 느낌 강조 */
   input[type=number]::-webkit-inner-spin-button,
   input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
   input[type=number] { -moz-appearance: textfield; }
@@ -456,28 +254,22 @@
   </div>
 </div>
 
-<!-- 계산 탭 -->
 <div id="tab-calc" class="section active">
 
-  <!-- 상품 입력 -->
   <div class="card">
     <div class="card-title">🛒 상품 입력</div>
-    <div id="items-container">
-      <!-- 동적으로 추가 -->
-    </div>
+    <div id="items-container"></div>
     <button class="btn-add" onclick="addItem()">+ 상품 추가</button>
   </div>
 
-  <!-- 할인 설정 -->
   <div class="card">
     <div class="card-title">🏷️ 할인 설정</div>
     <div class="discount-grid" style="grid-template-columns:1fr 1fr 1fr;">
       <button class="discount-type-btn active" id="btn-percent" onclick="setDiscountType('percent')">% 퍼센트</button>
       <button class="discount-type-btn" id="btn-fixed" onclick="setDiscountType('fixed')">₩ 금액</button>
-      <button class="discount-type-btn" id="btn-qty" onclick="setDiscountType('qty')">🎁 N개 조건</button>
+      <button class="discount-type-btn" id="btn-qty" onclick="setDiscountType('qty')">🎁 2+1</button>
     </div>
 
-    <!-- 일반 할인 입력 -->
     <div id="normal-discount-area">
       <div class="discount-value-row">
         <input class="input-discount" type="number" id="discount-value" placeholder="0">
@@ -486,7 +278,6 @@
       <div class="preset-row" id="preset-row"></div>
     </div>
 
-    <!-- N개 조건 할인 입력 -->
     <div id="qty-discount-area" style="display:none;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
         <div class="qty-control">
@@ -508,12 +299,10 @@
     </div>
   </div>
 
-  <!-- 계산 버튼 -->
   <div style="padding: 0 20px;">
     <button class="btn-calc" onclick="calculate()">💰 할인 금액 계산</button>
   </div>
 
-  <!-- 결과 -->
   <div style="padding: 0 20px;">
     <div class="result-card" id="result-card">
       <div class="card-title">📋 계산 결과</div>
@@ -536,7 +325,6 @@
   </div>
 </div>
 
-<!-- 내역 탭 -->
 <div id="tab-history" class="section">
   <div id="history-container">
     <div class="empty-state">아직 계산 내역이 없어요</div>
@@ -545,7 +333,7 @@
 
 <script>
 let discountType = 'percent';
-let qtyDiscountMode = 'percent'; // qty 타입 내부에서 금액/퍼센트 선택
+let qtyDiscountMode = 'percent';
 let history = JSON.parse(localStorage.getItem('calcHistory') || '[]');
 let itemCount = 0;
 
@@ -559,6 +347,7 @@ function init() {
   renderQtyPresets();
   renderHistory();
 }
+
 function addItem() {
   itemCount++;
   const container = document.getElementById('items-container');
@@ -656,8 +445,6 @@ function applyQtyPreset(val) {
   });
 }
 
-function updateDiscountUnit() {}
-
 function renderPresets() {
   const row = document.getElementById('preset-row');
   const presets = discountType === 'percent' ? PERCENT_PRESETS : FIXED_PRESETS;
@@ -689,28 +476,21 @@ function getItems() {
 
 function calculate() {
   const items = getItems();
-  if (items.length === 0) {
-    alert('상품을 하나 이상 입력해주세요');
-    return;
-  }
+  if (items.length === 0) { alert('상품을 하나 이상 입력해주세요'); return; }
 
   const subtotal = items.reduce((s, i) => s + i.total, 0);
   let discountAmount = 0;
   let discountLabel = '';
+  let perUnitPrice = null;
+  let totalQty = items.reduce((s, i) => s + i.qty, 0);
 
   if (discountType === 'qty') {
     const condQty = parseInt(document.getElementById('cond-qty').textContent);
     const discountVal = parseFloat(document.getElementById('qty-discount-value').value);
     if (!discountVal || discountVal <= 0) { alert('할인 값을 입력해주세요'); return; }
 
-    // 전체 수량 합산
-    const totalQty = items.reduce((s, i) => s + i.qty, 0);
-    const times = Math.floor(totalQty / condQty); // 조건 충족 횟수
-
-    if (times === 0) {
-      alert(`총 ${totalQty}개로는 ${condQty}개 조건이 충족되지 않아요`);
-      return;
-    }
+    const times = Math.floor(totalQty / condQty);
+    if (times === 0) { alert(`총 ${totalQty}개로는 ${condQty}개 조건이 충족되지 않아요`); return; }
 
     if (qtyDiscountMode === 'fixed') {
       discountAmount = discountVal * times;
@@ -718,10 +498,12 @@ function calculate() {
     } else {
       if (discountVal >= 100) { alert('할인율은 100% 미만이어야 합니다'); return; }
       discountAmount = Math.round(subtotal * discountVal / 100) * times;
-      // 최대 소계 넘지 않도록
       if (discountAmount > subtotal) discountAmount = subtotal;
       discountLabel = `${condQty}개 구매마다 ${discountVal}% 할인 (×${times}회)`;
     }
+
+    // 개당 가격 = 최종금액 / 전체수량
+    perUnitPrice = Math.round((subtotal - discountAmount) / totalQty);
   } else {
     const discountVal = parseFloat(document.getElementById('discount-value').value);
     if (!discountVal || discountVal <= 0) { alert('할인 값을 입력해주세요'); return; }
@@ -741,12 +523,28 @@ function calculate() {
 
   // 결과 렌더링
   const resultItems = document.getElementById('result-items');
-  resultItems.innerHTML = items.map(i =>
-    `<div class="result-item-row">
-      <span class="result-item-name">${i.name}${i.qty > 1 ? ` <span style="color:var(--accent2);font-size:12px">×${i.qty}</span>` : ''}</span>
+  let itemsHtml = items.map(i => {
+    let perUnitHtml = '';
+    if (perUnitPrice !== null && items.length > 1) {
+      // 상품별 비중으로 개당 가격 계산
+      const itemPerUnit = Math.round((i.total / subtotal) * total / i.qty);
+      perUnitHtml = `<br><span class="per-unit-badge">개당 약 ${itemPerUnit.toLocaleString()}원</span>`;
+    }
+    return `<div class="result-item-row">
+      <span class="result-item-name">${i.name}${i.qty > 1 ? ` <span style="color:var(--accent2);font-size:12px">×${i.qty}</span>` : ''}${perUnitHtml}</span>
       <span class="result-item-price">${i.total.toLocaleString()}원</span>
-    </div>`
-  ).join('');
+    </div>`;
+  }).join('');
+
+  // 전체 개당 가격 박스 (N개 조건일 때)
+  if (perUnitPrice !== null) {
+    itemsHtml += `<div class="per-unit-box">
+      <span class="per-unit-box-label">💚 실제 개당 가격 (총 ${totalQty}개)</span>
+      <span class="per-unit-box-value">${perUnitPrice.toLocaleString()}원</span>
+    </div>`;
+  }
+
+  resultItems.innerHTML = itemsHtml;
 
   document.getElementById('result-subtotal').textContent = subtotal.toLocaleString() + '원';
   document.getElementById('result-discount-label').textContent = '할인 (' + discountLabel + ')';
@@ -764,7 +562,9 @@ function calculate() {
     subtotal,
     discountAmount,
     discountLabel,
-    total
+    total,
+    perUnitPrice,
+    totalQty
   };
   history.unshift(record);
   if (history.length > 30) history.pop();
@@ -794,7 +594,7 @@ function renderHistory() {
     container.innerHTML = '<div class="empty-state">아직 계산 내역이 없어요</div>';
     return;
   }
-  container.innerHTML = history.map((r, i) => `
+  container.innerHTML = history.map((r) => `
     <div class="card" style="margin: 12px 20px 0;">
       <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
         <span style="font-size:12px;color:var(--muted)">${r.time}</span>
@@ -810,6 +610,12 @@ function renderHistory() {
         <span style="font-size:13px;color:var(--muted)">할인 -${r.discountAmount.toLocaleString()}원</span>
         <span style="font-size:20px;font-weight:900;color:var(--accent)">${r.total.toLocaleString()}원</span>
       </div>
+      ${r.perUnitPrice ? `
+        <div class="history-per-unit-box">
+          <span style="font-size:12px;color:var(--green);font-weight:700">💚 개당 가격 (총 ${r.totalQty}개)</span>
+          <span style="font-size:16px;font-weight:900;color:var(--green)">${r.perUnitPrice.toLocaleString()}원</span>
+        </div>
+      ` : ''}
     </div>
   `).join('');
 }
